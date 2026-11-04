@@ -29,6 +29,12 @@ public class Punteggio {
      * Promette: una partita 0 a 0, non finita, senza vincitore e con la storia vuota.
      */
     public Punteggio(int puntiPerVincere, int scartoMinimo) {
+        if (puntiPerVincere < 1) {
+            throw new IllegalArgumentException("puntiPerVincere deve essere almeno 1: " + puntiPerVincere);
+        }
+        if (scartoMinimo < 1) {
+            throw new IllegalArgumentException("scartoMinimo deve essere almeno 1: " + scartoMinimo);
+        }
         this.puntiPerVincere = puntiPerVincere;
         this.scartoMinimo = scartoMinimo;
         this.storia = new ArrayList<>();
@@ -43,6 +49,9 @@ public class Punteggio {
      *           Se la partita era già finita, non cambia niente.
      */
     public void segnaPunto(Lato chi) {
+        if (chi == null) {
+            throw new IllegalArgumentException("Il lato che segna punto non può essere nullo");
+        }
         if (!isFinita()) {
             storia.add(chi);
         }
@@ -53,6 +62,9 @@ public class Punteggio {
      * Promette: i punti del lato chi. Non cambia niente.
      */
     public int getPunti(Lato chi) {
+        if (chi == null) {
+            throw new IllegalArgumentException("Impossibile fornire i punri di un lato nullo");
+        }
         int contatore = 0;
         for (Lato l : storia) {    // per ogni Lato l in storia
             if (l == chi) {
@@ -143,4 +155,17 @@ public class Punteggio {
     public void azzera() {
         storia.clear();
     }
+
+
+    boolean repOK() {
+        for (Lato l : storia) {    // per ogni Lato l in storia
+            if (l == null) {
+                return false;
+            }    
+            
+        }
+        return true;
+    }
+
+    
 }
